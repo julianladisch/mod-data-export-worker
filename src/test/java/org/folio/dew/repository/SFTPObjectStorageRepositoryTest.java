@@ -52,7 +52,9 @@ class SFTPObjectStorageRepositoryTest {
 
   @BeforeAll
   public static void staticSetup() {
+    log.info("starting mock sftp server");
     sftp.start();
+    log.info("successfully started mock sftp server");
     MAPPED_PORT = sftp.getMappedPort(PORT);
   }
 
