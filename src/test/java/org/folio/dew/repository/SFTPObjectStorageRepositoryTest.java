@@ -16,6 +16,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,19 +40,21 @@ class SFTPObjectStorageRepositoryTest {
   private static Integer MAPPED_PORT;
 
   //@Container
-  public static final GenericContainer sftp = new GenericContainer(
-    new ImageFromDockerfile()
-      .withDockerfileFromBuilder(builder ->
-        builder
-          .from("atmoz/sftp:latest")
-          .run("mkdir -p " + File.separator + EXPORT_FOLDER_NAME + "; chmod -R 777 " + File.separator + EXPORT_FOLDER_NAME)
-          .build()))
-    .withExposedPorts(PORT)
-    .withCommand(USERNAME + ":" + PASSWORD + ":::upload");
+  public static GenericContainer sftp;
 
 
   @BeforeAll
   public static void staticSetup() {
+    sftp = new GenericContainer(
+      new ImageFromDockerfile()
+        .withDockerfileFromBuilder(builder ->
+          builder
+            .from("atmoz/sftp:latest")
+            .run("mkdir -p " + File.separator + EXPORT_FOLDER_NAME + "; chmod -R 777 " + File.separator + EXPORT_FOLDER_NAME)
+            .build()))
+      .withExposedPorts(PORT)
+      .withCommand(USERNAME + ":" + PASSWORD + ":::upload")
+      .withStartupTimeout(Duration.ofSeconds(60));
     log.info("starting mock sftp server");
     sftp.start();
     log.info("successfully started mock sftp server");
