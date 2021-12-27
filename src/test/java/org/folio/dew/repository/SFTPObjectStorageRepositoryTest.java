@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.sftp.client.SftpClient;
 import org.folio.dew.domain.dto.Transfer;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ class SFTPObjectStorageRepositoryTest {
 
   private static Integer MAPPED_PORT;
 
-  @Container
+  //@Container
   public static final GenericContainer sftp = new GenericContainer(
     new ImageFromDockerfile()
       .withDockerfileFromBuilder(builder ->
@@ -51,7 +52,13 @@ class SFTPObjectStorageRepositoryTest {
 
   @BeforeAll
   public static void staticSetup() {
+    sftp.start();
     MAPPED_PORT = sftp.getMappedPort(PORT);
+  }
+
+  @AfterAll
+  public static void runAfterAll() {
+    sftp.stop();
   }
 
   @Test
