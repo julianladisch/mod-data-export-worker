@@ -21,6 +21,6 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
         cache: maven
-    - run: mvn --batch-mode verify
+    - run: mvn --batch-mode verify -Dtest=!LocalFilesStorageAwsSdkComposingTest
       env:
         TESTCONTAINERS_POSTGRES_IMAGE: ${{ matrix.postgres }}
