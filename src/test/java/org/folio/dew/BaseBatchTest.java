@@ -76,7 +76,8 @@ public abstract class BaseBatchTest {
 
   public static final int WIRE_MOCK_PORT = TestSocketUtils.findAvailableTcpPort();
   public static WireMockServer wireMockServer;
-  public static PostgreSQLContainer<?> postgreDBContainer = new PostgreSQLContainer<>("postgres:13");
+  private static final String postgresImage = System.getenv().getOrDefault("TESTCONTAINERS_POSTGRES_IMAGE", "postgres:13");
+  public static PostgreSQLContainer<?> postgreDBContainer = new PostgreSQLContainer<>(postgresImage);
 
   @Autowired
   protected MockMvc mockMvc;
