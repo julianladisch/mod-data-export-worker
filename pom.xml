@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.4.0-M1</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
@@ -49,9 +49,8 @@
           ${project.basedir}/src/main/resources/swagger.api/refresh-presigned-url.yaml
         </refresh-presigned-url.yaml.file>
 
-        <folio-spring-base.version>8.1.0</folio-spring-base.version>
-        <folio-service-tools.version>3.1.0</folio-service-tools.version>
-        <folio-spring-cql.version>8.1.0</folio-spring-cql.version>
+        <folio-spring-support.version>8.2.0-SNAPSHOT</folio-spring-support.version>
+        <folio-service-tools.version>4.1.0-SNAPSHOT</folio-service-tools.version>
         <commons-io.version>2.11.0</commons-io.version>
         <minio.version>8.5.9</minio.version>
         <openapi-generator.version>6.2.1</openapi-generator.version>
@@ -96,7 +95,7 @@
       <dependency>
           <groupId>org.folio</groupId>
           <artifactId>folio-spring-base</artifactId>
-          <version>${folio-spring-base.version}</version>
+          <version>${folio-spring-support.version}</version>
       </dependency>
       <dependency>
         <groupId>org.folio</groupId>
@@ -106,7 +105,7 @@
       <dependency>
         <groupId>org.folio</groupId>
         <artifactId>folio-spring-cql</artifactId>
-        <version>${folio-spring-cql.version}</version>
+        <version>${folio-spring-support.version}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -740,7 +739,22 @@
             <name>FOLIO Maven Repository</name>
             <url>https://repository.folio.org/repository/maven-folio</url>
         </repository>
+        <repository>
+            <id>repo.spring.io-milestone</id>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+        <repository>
+            <id>repo.spring.io-snapshot</id>
+            <url>https://repo.spring.io/snapshot</url>
+        </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <url>https://repo.spring.io/milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <distributionManagement>
         <repository>
