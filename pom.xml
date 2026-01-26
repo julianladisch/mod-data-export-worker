@@ -66,7 +66,6 @@
         <localstack.version>1.20.5</localstack.version>
         <marc4j.version>2.9.1</marc4j.version>
         <testcontainers.version>1.17.6</testcontainers.version>
-        <aws.sdk.version>2.40.2</aws.sdk.version>
         <folio-s3-client.version>3.0.0-SNAPSHOT</folio-s3-client.version>
         <hamcrest-all.version>1.3</hamcrest-all.version>
         <mockito-inline.version>5.2.0</mockito-inline.version>
@@ -211,12 +210,6 @@
         <groupId>org.marc4j</groupId>
         <artifactId>marc4j</artifactId>
         <version>${marc4j.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>software.amazon.awssdk</groupId>
-        <artifactId>aws-sdk-java</artifactId>
-        <version>${aws.sdk.version}</version>
       </dependency>
 
       <dependency>
@@ -681,6 +674,9 @@
                     <argLine>
                         @{argLine} -Xmx2G -Duser.language=en -Duser.region=US
                     </argLine>
+                  <environmentVariables>
+                    <S3_IS_AWS>true</S3_IS_AWS>
+                  </environmentVariables>
                 </configuration>
             </plugin>
 
