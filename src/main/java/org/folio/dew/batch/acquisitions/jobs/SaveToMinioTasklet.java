@@ -56,7 +56,7 @@ public class SaveToMinioTasklet implements Tasklet {
     try {
       uploadedFilePath = remoteFilesStorage.write(fullFilePath, edifactOrderAsString.getBytes(StandardCharsets.UTF_8));
     } catch (Exception e) {
-      log(Instant.now() + " " + REMOTE_STORAGE_ERROR_MESSAGE + ": " + fullFilePath, e);
+      log(REMOTE_STORAGE_ERROR_MESSAGE + ": " + fullFilePath, e);
       log.error(REMOTE_STORAGE_ERROR_MESSAGE, e);
       throw new EdifactException(REMOTE_STORAGE_ERROR_MESSAGE);
     }
@@ -74,9 +74,9 @@ public class SaveToMinioTasklet implements Tasklet {
 
   private void log(String msg, Throwable t) {
     var e = new RuntimeException(msg, t);
-    var stackTrace = ExceptionUtils.getStackTrace(e);
+    var stackTrace = Instant.now() + "\n" + ExceptionUtils.getStackTrace(e);
     try {
-      Files.writeString(Path.of("/tmp/edifact-error.txt"), stackTrace, StandardOpenOption.APPEND);
+      Files.writeString(Path.of("/tmp/edifact-error.txt"), stackTrace, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     } catch (IOException ioe) {
       throw new UncheckedIOException(stackTrace, ioe);
     }
