@@ -5,9 +5,14 @@ import static org.folio.dew.domain.dto.JobParameterNames.ACQ_EXPORT_FILE_NAME;
 import static org.folio.dew.domain.dto.JobParameterNames.OUTPUT_FILES_IN_STORAGE;
 import static org.folio.dew.utils.Constants.EDIFACT_EXPORT_DIR_NAME;
 import static org.folio.dew.utils.Constants.getWorkingDirectory;
-
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.time.Instant;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.folio.dew.batch.ExecutionContextUtils;
 import org.folio.dew.batch.acquisitions.exceptions.EdifactException;
 import org.folio.dew.repository.RemoteFilesStorage;
@@ -51,6 +56,7 @@ public class SaveToMinioTasklet implements Tasklet {
     try {
       uploadedFilePath = remoteFilesStorage.write(fullFilePath, edifactOrderAsString.getBytes(StandardCharsets.UTF_8));
     } catch (Exception e) {
+      log(Instant.now() + " " + REMOTE_STORAGE_ERROR_MESSAGE + ": " + fullFilePath, e);
       log.error(REMOTE_STORAGE_ERROR_MESSAGE, e);
       throw new EdifactException(REMOTE_STORAGE_ERROR_MESSAGE);
     }
@@ -66,4 +72,13 @@ public class SaveToMinioTasklet implements Tasklet {
     return UPLOADED_PATH_TEMPLATE.formatted(workDir, tenantName, fileName);
   }
 
+  private void log(String msg, Throwable t) {
+    var e = new RuntimeException(msg, t);
+    var stackTrace = ExceptionUtils.getStackTrace(e);
+    try {
+      Files.writeString(Path.of("/tmp/edifact-error.txt"), stackTrace, StandardOpenOption.APPEND);
+    } catch (IOException ioe) {
+      throw new UncheckedIOException(stackTrace, ioe);
+    }
+  }
 }
