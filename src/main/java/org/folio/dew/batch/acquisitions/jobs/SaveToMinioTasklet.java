@@ -16,6 +16,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.folio.dew.batch.ExecutionContextUtils;
 import org.folio.dew.batch.acquisitions.exceptions.EdifactException;
 import org.folio.dew.repository.RemoteFilesStorage;
+import org.folio.dew.utils.Log2File;
 import org.folio.spring.FolioExecutionContext;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
@@ -56,7 +57,7 @@ public class SaveToMinioTasklet implements Tasklet {
     try {
       uploadedFilePath = remoteFilesStorage.write(fullFilePath, edifactOrderAsString.getBytes(StandardCharsets.UTF_8));
     } catch (Exception e) {
-      log(REMOTE_STORAGE_ERROR_MESSAGE + ": " + fullFilePath, e);
+      Log2File.log(REMOTE_STORAGE_ERROR_MESSAGE + ": " + fullFilePath, e);
       log.error(REMOTE_STORAGE_ERROR_MESSAGE, e);
       throw new EdifactException(REMOTE_STORAGE_ERROR_MESSAGE);
     }
@@ -70,15 +71,5 @@ public class SaveToMinioTasklet implements Tasklet {
     var tenantName = folioExecutionContext.getTenantId();
     var fileName = (String) ExecutionContextUtils.getExecutionVariable(stepExecution, ACQ_EXPORT_FILE_NAME);
     return UPLOADED_PATH_TEMPLATE.formatted(workDir, tenantName, fileName);
-  }
-
-  private void log(String msg, Throwable t) {
-    var e = new RuntimeException(msg, t);
-    var stackTrace = Instant.now() + "\n" + ExceptionUtils.getStackTrace(e);
-    try {
-      Files.writeString(Path.of("/tmp/edifact-error.txt"), stackTrace, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-    } catch (IOException ioe) {
-      throw new UncheckedIOException(stackTrace, ioe);
-    }
   }
 }

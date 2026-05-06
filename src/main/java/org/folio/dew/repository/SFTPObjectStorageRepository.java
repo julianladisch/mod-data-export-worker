@@ -10,6 +10,7 @@ import org.apache.sshd.sftp.client.SftpClient;
 import org.apache.sshd.sftp.client.SftpClientFactory;
 import org.apache.sshd.sftp.spring.integration.ApacheSshdSftpSessionFactory;
 import org.folio.dew.batch.acquisitions.exceptions.EdifactException;
+import org.folio.dew.utils.Log2File;
 import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.file.remote.session.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -39,6 +40,9 @@ public class SFTPObjectStorageRepository {
       log.info("authentication successful: {}", auth.isSuccess());
       return createSftpClient(clientSession);
     } else {
+      Log2File.log("sftp authentication failed for " + host + ":" + port + " " + username,
+          new IOException("SFTP server authentication failed", auth.getException()));
+      log.error("sftp authentication failed for {}:{} {}", host, port, username, auth.getException());
       clientSession.close();
       sshClient.stopClient();
       throw new IOException("SFTP server authentication failed");
@@ -74,6 +78,7 @@ public class SFTPObjectStorageRepository {
     try {
       sshdFactory = getSshdSessionFactory(username, password, host, port);
     } catch (Exception e) {
+      Log2File.log("Error connecting to  " + host + ":" + port + " " + username, e);
       log.error("Error connecting to {}:{}", host, port, e);
       throw new EdifactException(String.format("Unable to connect to %s:%d", host, port));
     }
@@ -85,6 +90,7 @@ public class SFTPObjectStorageRepository {
 
       return true;
     } catch (Exception e) {
+      Log2File.log("Error uploading to SFTP path: " + remoteAbsPath, e);
       log.error("Error uploading to SFTP path: {}", remoteAbsPath, e);
       throw new EdifactException(String.format("Unable to upload to sftp %s:%d, folder: %s. %s", host, port, folder, e.getMessage()));
     }
@@ -95,6 +101,7 @@ public class SFTPObjectStorageRepository {
       log.info("File found to path: {}", path);
       return stream.readAllBytes();
     } catch (Exception e) {
+      Log2File.log("Error downloading from SFTP path: " + path, e);
       log.error("Error downloading from SFTP path: {}", path, e);
       return null;
     }
