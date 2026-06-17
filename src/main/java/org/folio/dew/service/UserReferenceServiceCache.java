@@ -32,22 +32,18 @@ public class UserReferenceServiceCache {
   private final ModuleTenantService moduleTenantService;
   private final FolioExecutionContext folioExecutionContext;
 
-  @Cacheable(cacheNames = "addressTypeNames")
   public String getAddressTypeDescById(String id) {
     return isNull(id) ? EMPTY : addressTypeClient.getAddressTypeById(id).getAddressType();
   }
 
-  @Cacheable(cacheNames = "departmentNames")
   public String getDepartmentNameById(String id) {
     return isNull(id) ? EMPTY : departmentClient.getDepartmentById(id).getName();
   }
 
-  @Cacheable(cacheNames = "patronGroupNames")
   public String getPatronGroupNameById(String id) {
     return isNull(id) ? EMPTY : groupClient.getGroupById(id).getGroup();
   }
 
-  @Cacheable(cacheNames = "customFields")
   public CustomField getCustomFieldByRefId(String refId) {
     var moduleId = moduleTenantService.getModUsersModuleId();
     return customFieldsClient.getCustomFieldsByQuery(moduleId, format(QUERY_PATTERN_REF_ID, encode(refId))).getCustomFields()

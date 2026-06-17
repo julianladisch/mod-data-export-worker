@@ -38,7 +38,6 @@ public class ModuleTenantService {
   private final OkapiClient okapiClient;
   private final EurekaProxyTenantsClient eurekaProxyTenantsClient;
 
-  @Cacheable(cacheNames = "modUsersModuleIds")
   public String getModUsersModuleId() {
     var moduleId = StringUtils.equals(EUREKA_PLATFORM, platform) ? getModUsersModuleIdForEureka() : getModUsersModuleIdForOkapi();
     return moduleId.orElseThrow(() -> new NotFoundException(MOD_USERS_NOT_FOUND_ERROR));

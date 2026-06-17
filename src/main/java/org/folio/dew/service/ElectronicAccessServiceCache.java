@@ -16,7 +16,6 @@ public class ElectronicAccessServiceCache extends FolioExecutionContextManager {
   private final ElectronicAccessRelationshipClient relationshipClient;
   private final FolioExecutionContext folioExecutionContext;
 
-  @Cacheable(cacheNames = "relationships")
   public String getRelationshipNameById(String id, String tenantId) {
     try (var context = new FolioExecutionContextSetter(refreshAndGetFolioExecutionContext(tenantId, folioExecutionContext))) {
       return relationshipClient.getById(id).getName();

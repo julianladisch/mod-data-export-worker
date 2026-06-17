@@ -20,7 +20,6 @@ public class ConsortiaService {
   private final ConsortiaClient consortiaClient;
   private final ConsortiumClient consortiumClient;
 
-  @Cacheable(value = "centralTenantCache")
   public String getCentralTenantId() {
     var userTenantCollection = consortiaClient.getUserTenantCollection();
     var userTenants = userTenantCollection.getUserTenants();
@@ -30,7 +29,6 @@ public class ConsortiaService {
     return StringUtils.EMPTY;
   }
 
-  @Cacheable(value = "affiliatedTenantsCache")
   public List<String> getAffiliatedTenants(String currentTenantId, String userId) {
     var consortia = consortiumClient.getConsortia();
     var consortiaList = consortia.getConsortia();

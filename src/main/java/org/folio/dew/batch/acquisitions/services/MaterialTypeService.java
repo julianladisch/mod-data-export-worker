@@ -17,7 +17,6 @@ public class MaterialTypeService {
     return materialTypeClient.getMaterialType(id);
   }
 
-  @Cacheable(cacheNames = "materialTypeNames")
   public String getMaterialTypeName(String id) {
     JsonNode jsonObject = getMaterialType(id);
     String materialType = "";

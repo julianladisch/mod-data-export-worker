@@ -24,7 +24,6 @@ public class ConfigurationService {
   private final ConfigurationClient configurationClient;
   private final ObjectMapper objectMapper;
 
-  @Cacheable(cacheNames = "addressConfiguration")
   public String getAddressConfig(UUID shipToConfigId) {
     if (shipToConfigId == null) {
       logger.warn("getAddressConfig:: shipToConfigId is null");

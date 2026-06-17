@@ -19,7 +19,6 @@ public class PermissionsProvider extends FolioExecutionContextManager {
   private final FolioExecutionContext folioExecutionContext;
   private final UserPermissionsService userPermissionsService;
 
-  @Cacheable(cacheNames = "userPermissions")
   public List<String> getUserPermissions(String tenantId, String userId) {
     try (var ignored = new FolioExecutionContextSetter(refreshAndGetFolioExecutionContext(tenantId, folioExecutionContext))) {
       log.info("getUserPermissions:: user {} tenant {}", userId, tenantId);

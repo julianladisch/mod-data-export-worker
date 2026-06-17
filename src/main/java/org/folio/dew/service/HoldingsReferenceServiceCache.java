@@ -41,7 +41,6 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
   private final FolioExecutionContext folioExecutionContext;
 
 
-  @Cacheable(cacheNames = "holdingsTypesNames")
   public String getHoldingsTypeNameById(String id, String tenantId) {
    if (isEmpty(id)) {
       return EMPTY;
@@ -51,7 +50,6 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
     }
   }
 
-  @Cacheable(cacheNames = "holdingsLocationsNames")
   public String getLocationNameById(String id, String tenantId) {
     try (var context = new FolioExecutionContextSetter(refreshAndGetFolioExecutionContext(tenantId, folioExecutionContext))) {
       return isEmpty(id) ? EMPTY : locationClient.getLocationById(id).getName();
@@ -62,7 +60,6 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
     }
   }
 
-  @Cacheable(cacheNames = "holdingsCallNumberTypesNames")
   public String getCallNumberTypeNameById(String id, String tenantId) {
     if (isEmpty(id)) {
       return EMPTY;
@@ -72,7 +69,6 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
     }
   }
 
-  @Cacheable(cacheNames = "holdingsNoteTypesNames")
   public String getNoteTypeNameById(String id, String tenantId) {
     if (isEmpty(id)) {
       return EMPTY;
@@ -82,7 +78,6 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
     }
   }
 
-  @Cacheable(cacheNames = "illPolicyNames")
   public String getIllPolicyNameById(String id, String tenantId) {
     if (isEmpty(id)) {
       return EMPTY;
@@ -92,7 +87,6 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
     }
   }
 
-  @Cacheable(cacheNames = "holdingsSourceNames")
   public String getSourceNameById(String id, String tenantId) {
     if (isEmpty(id)) {
       return EMPTY;
@@ -102,7 +96,6 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
     }
   }
 
-  @Cacheable(cacheNames = "holdingsStatisticalCodeNames")
   public String getStatisticalCodeNameById(String id, String tenantId) {
     if (isEmpty(id)) {
       return EMPTY;
@@ -112,14 +105,12 @@ public class HoldingsReferenceServiceCache extends FolioExecutionContextManager 
     }
   }
 
-  @Cacheable(cacheNames = "holdings")
   public JsonNode getHoldingsJsonById(String holdingsId, String tenantId) {
     try (var context = new FolioExecutionContextSetter(refreshAndGetFolioExecutionContext(tenantId, folioExecutionContext))) {
       return holdingClient.getHoldingById(holdingsId);
     }
   }
 
-  @Cacheable(cacheNames = "holdingsLocations")
   public JsonNode getHoldingsLocationById(String locationId, String tenantId) {
     if (ObjectUtils.isEmpty(locationId)) {
       return new ObjectMapper().createObjectNode();

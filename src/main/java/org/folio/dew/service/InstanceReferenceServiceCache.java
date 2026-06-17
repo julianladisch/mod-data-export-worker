@@ -38,32 +38,26 @@ public class InstanceReferenceServiceCache {
   private final StatisticalCodeTypeClient statisticalCodeTypeClient;
 
 
-  @Cacheable(cacheNames = "instanceStatusNames")
   public String getInstanceStatusNameById(String instanceStatusId) {
       return isEmpty(instanceStatusId) ? EMPTY : instanceStatusesClient.getById(instanceStatusId).getName();
   }
 
-  @Cacheable(cacheNames = "issuanceModeNames")
   public String getModeOfIssuanceNameById(String issuanceModeId) {
       return isEmpty(issuanceModeId) ? EMPTY : instanceModeOfIssuanceClient.getById(issuanceModeId).getName();
   }
 
-  @Cacheable(cacheNames = "instanceTypes")
   public String getInstanceTypeNameById(String instanceTypeId) {
       return isEmpty(instanceTypeId) ? EMPTY : instanceTypesClient.getById(instanceTypeId).getName();
   }
 
-  @Cacheable(cacheNames = "natureOfContentTermIds")
   public String getNatureOfContentTermNameById(String natureOfContentTermId) {
       return isEmpty(natureOfContentTermId) ? EMPTY : natureOfContentTermsClient.getById(natureOfContentTermId).getName();
   }
 
-  @Cacheable(cacheNames = "instanceFormatIds")
   public String getFormatOfInstanceNameById(String instanceFormatId) {
       return isEmpty(instanceFormatId) ? EMPTY : instanceFormatsClient.getById(instanceFormatId).getName();
   }
 
-  @Cacheable(cacheNames = "typeOfIdentifiersIds")
   public String getTypeOfIdentifiersIdByName(String identifierName) {
     if (StringUtils.isEmpty(identifierName)) {
       return null;
@@ -76,12 +70,10 @@ public class InstanceReferenceServiceCache {
     return typeOfIdentifiers.getIdentifierTypes().get(0).getId();
   }
 
-  @Cacheable(cacheNames = "instanceNoteTypes")
   public String getInstanceNoteTypeNameById(String noteTypeId) {
       return isEmpty(noteTypeId) ? EMPTY : instanceNoteTypesClient.getNoteTypeById(noteTypeId).getName();
   }
 
-  @Cacheable(cacheNames = "instanceStatisticalCodeNames")
   public String getStatisticalCodeNameById(String id) {
     if (StringUtils.isEmpty(id)) {
       return EMPTY;
@@ -89,7 +81,6 @@ public class InstanceReferenceServiceCache {
     return statisticalCodeClient.getById(id).getName();
   }
 
-  @Cacheable(cacheNames = "instanceStatisticalCodeCodes")
   public String getStatisticalCodeCodeById(String id) {
     if (StringUtils.isEmpty(id)) {
       return EMPTY;
@@ -97,7 +88,6 @@ public class InstanceReferenceServiceCache {
     return statisticalCodeClient.getById(id).getCode();
   }
 
-  @Cacheable(cacheNames = "instanceStatisticalCodeTypeNames")
   public String getStatisticalCodeTypeNameById(String id) {
     if (StringUtils.isEmpty(id)) {
       return EMPTY;

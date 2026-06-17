@@ -19,7 +19,6 @@ public class IdentifierTypeService {
     return identifierTypeClient.getIdentifierType(id);
   }
 
-  @Cacheable(cacheNames = "identifierTypes")
   public String getIdentifierTypeName(String id) {
     JsonNode jsonObject = getIdentifierType(id);
     String identifierType = "";

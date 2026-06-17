@@ -26,7 +26,6 @@ public class ItemReferenceServiceCache extends FolioExecutionContextManager {
   private final StatisticalCodeClient statisticalCodeClient;
   private final FolioExecutionContext folioExecutionContext;
 
-  @Cacheable(cacheNames = "callNumberTypeNames")
   public String getCallNumberTypeNameById(String callNumberTypeId, String tenantId) {
     if (isEmpty(callNumberTypeId)) {
       return EMPTY;
@@ -36,7 +35,6 @@ public class ItemReferenceServiceCache extends FolioExecutionContextManager {
     }
   }
 
-  @Cacheable(cacheNames = "damagedStatusNames")
   public String getDamagedStatusNameById(String damagedStatusId, String tenantId) {
     if (isEmpty(damagedStatusId)) {
       return EMPTY;
@@ -46,7 +44,6 @@ public class ItemReferenceServiceCache extends FolioExecutionContextManager {
     }
   }
 
-  @Cacheable(cacheNames = "noteTypeNames")
   public String getNoteTypeNameById(String noteTypeId, String tenantId) {
     if (isEmpty(noteTypeId)) {
       return EMPTY;
@@ -56,7 +53,6 @@ public class ItemReferenceServiceCache extends FolioExecutionContextManager {
     }
   }
 
-  @Cacheable(cacheNames = "statisticalCodeNames")
   public String getStatisticalCodeById(String statisticalCodeId, String tenantId) {
     if (isEmpty(statisticalCodeId)) {
       return EMPTY;

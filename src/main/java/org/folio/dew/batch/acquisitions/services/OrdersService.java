@@ -73,7 +73,6 @@ public class OrdersService {
     return pieces;
   }
 
-  @Cacheable("titleIds")
   public OrdersTitle getTitleById(String titleId) {
     log.debug("getTitleById: Fetching title: {}", titleId);
     var title =  ordersStorageClient.getTitleById(titleId);
